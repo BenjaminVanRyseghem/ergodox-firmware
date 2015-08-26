@@ -11,6 +11,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "../usage-page/keyboard.h"
+#include "../usage-page/consumer.h"
 #include "./keyboard/from-pjrc/usb_keyboard.h"
 #include "../../usb.h"
 
@@ -115,3 +116,20 @@ uint8_t usb__kb__send_report(void) {
     return usb_keyboard_send();
 }
 
+uint8_t usb__kb__send_consumer_report(void) {
+    return usb_extra_consumer_send();
+}
+
+uint8_t usb__kb__set_mediakey(bool press, uint8_t keycode) {
+	if (press) {
+		consumer_key = keycode;
+	} else {
+		// Only one key can be pressed at a time so only clear the keypress for
+		//  active key (most recently pressed)
+		if (keycode == consumer_key) {
+			consumer_key = 0;
+		}
+	}
+  
+  return 0;
+}

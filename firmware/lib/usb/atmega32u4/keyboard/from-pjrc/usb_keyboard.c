@@ -96,7 +96,9 @@
 // operating systems.
 #define SUPPORT_ENDPOINT_HALT
 
-
+/* report id */
+#define REPORT_ID_SYSTEM    2
+#define REPORT_ID_CONSUMER  3
 
 /**************************************************************************
  *
@@ -110,6 +112,11 @@
 #define KEYBOARD_ENDPOINT	3
 #define KEYBOARD_SIZE		8
 #define KEYBOARD_BUFFER		EP_DOUBLE_BUFFER
+
+#define EXTRA_INTERFACE		1
+#define EXTRA_ENDPOINT		2
+#define EXTRA_SIZE		8
+#define EXTRA_BUFFER		EP_DOUBLE_BUFFER
 
 static const uint8_t PROGMEM endpoint_config_table[] = {
 	0,
@@ -301,6 +308,10 @@ static uint8_t keyboard_idle_count=0;
 // 1=num lock, 2=caps lock, 4=scroll lock, 8=compose, 16=kana
 volatile uint8_t keyboard_leds=0;
 
+// which consumer key is currently pressed
+uint16_t consumer_key;
+uint16_t last_consumer_key;
+
 
 /**************************************************************************
  *
@@ -363,6 +374,53 @@ int8_t usb_keyboard_send(void)
 	SREG = intr_state;
 	return 0;
 }
+
+int8_t usb_extra_send(uint8_t report_id, uint16_t data)
+{
+	uint8_t intr_state, timeout;
+
+	if (!usb_configured()) return -1;
+	intr_state = SREG;
+	cli();
+	UENUM = EXTRA_ENDPOINT;
+	timeout = UDFNUML + 50;
+	while (1) {
+		// are we ready to transmit?
+		if (UEINTX & (1<<RWAL)) break;
+		SREG = intr_state;
+		// has the USB gone offline?
+		if (!usb_configured()) return -1;
+		// have we waited too long?
+		if (UDFNUML == timeout) return -1;
+		// get ready to try checking again
+		intr_state = SREG;
+		cli();
+		UENUM = EXTRA_ENDPOINT;
+	}
+
+	UEDATX = report_id;
+        UEDATX = data&0xFF;
+        UEDATX = (data>>8)&0xFF;
+
+	UEINTX = 0x3A;
+	SREG = intr_state;
+	return 0;
+}
+
+
+int8_t usb_extra_consumer_send()
+{
+	int result = 0;
+	// don't resend the same key repeatedly if held, only send it once.
+	if (consumer_key != last_consumer_key) {
+		result = usb_extra_send(REPORT_ID_CONSUMER, consumer_key);
+		if (result == 0) {
+			last_consumer_key = consumer_key;
+		}
+	}
+	return result;
+}
+
 
 /**************************************************************************
  *

@@ -17,17 +17,10 @@
 
 // ----------------------------------------------------------------------------
 
-void key_functions__press(uint8_t keycode) {
-    usb__kb__set_key(true, keycode);
+void mediakey_functions__press(uint8_t keycode) {
+    usb__kb__set_mediakey(true, keycode);
 }
 
-void key_functions__release(uint8_t keycode) {
-    usb__kb__set_key(false, keycode);
-}
-
-void key_functions__toggle(uint8_t keycode) {
-    if (usb__kb__read_key(keycode))
-        usb__kb__set_key(false, keycode);
-    else
-        usb__kb__set_key(true, keycode);
+void mediakey_functions__release(uint8_t keycode) {
+    usb__kb__set_mediakey(false, keycode);
 }

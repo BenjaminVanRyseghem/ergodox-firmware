@@ -119,6 +119,7 @@ int main(void) {
         }
 
         usb__kb__send_report();  // (even if nothing's changed)
+        usb__kb__send_consumer_report();
 
         // note: only use the `kb__led__logical...` functions here, since the
         // meaning of the physical LEDs should be controlled by the layout

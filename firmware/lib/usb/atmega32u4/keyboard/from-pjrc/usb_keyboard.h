@@ -27,9 +27,13 @@ void usb_init(void);			// initialize everything
 uint8_t usb_configured(void);		// is the USB port configured
 
 int8_t usb_keyboard_send(void);
+int8_t usb_extra_consumer_send(void);
+
 extern uint8_t keyboard_modifier_keys;
 extern uint8_t keyboard_keys[6];
 extern volatile uint8_t keyboard_leds;
+extern uint16_t consumer_key;
+extern uint16_t last_consumer_key;
 
 // ----------------------------------------------------------------------------
 

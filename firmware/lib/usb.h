@@ -33,7 +33,7 @@ uint8_t usb__kb__set_key     (bool pressed, uint8_t keycode);
 bool    usb__kb__read_key    (uint8_t keycode);
 bool    usb__kb__read_led    (char led);
 uint8_t usb__kb__send_report (void);
-
+uint8_t usb__kb__send_consumer_report(void);
 
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------

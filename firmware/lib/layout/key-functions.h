@@ -25,6 +25,10 @@ void key_functions__press   (uint8_t keycode);
 void key_functions__release (uint8_t keycode);
 void key_functions__toggle  (uint8_t keycode);
 
+// media
+void mediakey_functions__press(uint8_t keycode);
+void mediakey_functions__release(uint8_t keycode);
+  
 // device
 void key_functions__jump_to_bootloader (void);
 void key_functions__dump_sram_ihex     (void * from, void * last);
