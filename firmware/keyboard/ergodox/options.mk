@@ -21,16 +21,11 @@ F_CPU := 16000000
 # processor speed, in Hz; max value is 16000000 (16MHz); must match
 # initialization in source
 
-KEYBOARD_LAYOUT := qwerty--ben
+KEYBOARD_LAYOUT := maltron
 # default layout for this keyboard
 
 KEYBOARD_LAYOUTS := \
-	test \
-	arensito--ben \
-	qwerty--ben \
-	colemak--kinesis-mod \
-	dvorak--kinesis-mod \
-	qwerty--kinesis-mod
+	maltron
 # a list of all available layouts for this keyboard
 
 # -----------------------------------------------------------------------------

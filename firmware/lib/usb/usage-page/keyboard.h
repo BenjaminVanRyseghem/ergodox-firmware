@@ -272,6 +272,16 @@
 
 //      (Reserved)                0xE8..0xFFFF  // -  -   -     -
 
+// MEDIA
+
+#define AUDIO_MUTE              0x00E2
+#define AUDIO_VOL_UP            0x00E9
+#define AUDIO_VOL_DOWN          0x00EA
+#define TRANSPORT_NEXT_TRACK    0x00B5
+#define TRANSPORT_PREV_TRACK    0x00B6
+#define TRANSPORT_STOP          0x00B7
+#define TRANSPORT_PLAY_PAUSE    0x00CD
+
 
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------

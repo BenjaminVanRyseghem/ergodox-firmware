@@ -210,13 +210,13 @@ KEYS__DEFAULT(    shiftR,         KEYBOARD__RightShift                 );
 
 // lock
 KEYS__DEFAULT(    caps,           KEYBOARD__CapsLock                   );
-KEYS__DEFAULT(    scrl,           KEYBOARD__ScrollLock                 );
+KEYS__DEFAULT(    scrl,           KEYBOARD__ScrollLock                 ); // Decrease brightness on OSX
 // --- (keypad) ---
 KEYS__DEFAULT(    num,            KEYPAD__NumLock_Clear                );
 
 // special function
 KEYS__DEFAULT(    app,            KEYBOARD__Application                );
-KEYS__DEFAULT(    pause,          KEYBOARD__Pause                      );
+KEYS__DEFAULT(    pause,          KEYBOARD__Pause                      ); // Increase brightness on OSX
 KEYS__DEFAULT(    prScr,          KEYBOARD__PrintScreen                );
 
 // international and language

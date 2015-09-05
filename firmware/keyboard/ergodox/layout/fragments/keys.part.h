@@ -33,6 +33,14 @@
     void R(name) (void) { KF(release)(value);                   \
                           KF(release)(KEYBOARD__LeftShift); }
 
+/*
+ * Media keys
+ */
+
+#define  KEYS__MEDIA(name, value)             \
+    void P(name) (void) { MKF(press)(value); }   \
+    void R(name) (void) { MKF(release)(value); }
+
 /**                                    macros/KEYS__LAYER__PUSH_POP/description
  * Define the functions for a layer push-pop key (i.e. a layer shift key).
  *
@@ -98,6 +106,8 @@ void KF(2_keys_capslock)(bool pressed, uint8_t keycode) {
 // --- default key definitions ------------------------------------------------
 
 #include "../../../../../firmware/lib/layout/keys.h"
+#include "../../../../../firmware/lib/layout/keys-extended.h"
+#include "../../../../../firmware/lib/layout/keys-media.h"
 
 
 // --- special meaning --------------------------------------------------------
@@ -215,10 +225,11 @@ void P(lpu1l1) (void) { layer_stack__push(0, 1, 1); kb__led__on(1); }
 void P(lpo1l1) (void) { layer_stack__pop_id(1); kb__led__off(1); }
 #define  keys__release__lpo1l1  KF(nop)
 
+// Debug layer
 KEYS__LAYER__PUSH_POP(2,2);
-void P(lpu2l2) (void) { layer_stack__push(0, 2, 2); kb__led__on(2); }
+void P(lpu2l2) (void) { layer_stack__push(0, 2, 2); kb__led__all_on(); }
 #define  keys__release__lpu2l2  KF(nop)
-void P(lpo2l2) (void) { layer_stack__pop_id(2); kb__led__off(2); }
+void P(lpo2l2) (void) { layer_stack__pop_id(2); kb__led__all_off(); }
 #define  keys__release__lpo2l2  KF(nop)
 
 KEYS__LAYER__PUSH_POP(3, 3);
