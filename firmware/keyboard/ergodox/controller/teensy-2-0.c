@@ -24,7 +24,7 @@
     #error "Expecting different CPU frequency"
 #endif
 
-#if OPT__KB__ROWS != 6 || OPT__KB__COLUMNS != 14
+#if OPT__KB__ROWS != 6 || OPT__KB__COLUMNS != 19
 	#error "Expecting different keyboard dimensions"
 #endif
 
@@ -81,11 +81,9 @@
  */
 
 // --- unused
-#define  UNUSED_0  C, 7
-#define  UNUSED_1  D, 7
-#define  UNUSED_2  D, 4  // hard to use with breadboard (on the end)
-#define  UNUSED_3  D, 5  // hard to use with breadboard (on the end)
-#define  UNUSED_4  E, 6  // hard to use with breadboard (internal)
+#define  UNUSED_0  D, 4  // hard to use with breadboard (on the end)
+#define  UNUSED_1  D, 5  // hard to use with breadboard (on the end)
+#define  UNUSED_2  E, 6  // hard to use with breadboard (internal)
 
 // --- rows
 #define  ROW_0  F, 7
@@ -96,13 +94,15 @@
 #define  ROW_5  F, 0
 
 // --- columns
-#define  COLUMN_7  B, 0
-#define  COLUMN_8  B, 1
-#define  COLUMN_9  B, 2
-#define  COLUMN_A  B, 3
-#define  COLUMN_B  D, 2
-#define  COLUMN_C  D, 3
-#define  COLUMN_D  C, 6
+#define  COLUMN_A  B, 0
+#define  COLUMN_B  B, 1
+#define  COLUMN_C  B, 2
+#define  COLUMN_D  B, 3
+#define  COLUMN_E  D, 2
+#define  COLUMN_F  D, 3
+#define  COLUMN_10  C, 6
+#define  COLUMN_11  C, 7
+#define  COLUMN_12  D, 7
 
 // --- helpers
 #define  SET    |=
@@ -127,9 +127,7 @@
     do {                                                    \
         teensypin_write(register, operation, UNUSED_0);     \
         teensypin_write(register, operation, UNUSED_1);     \
-        teensypin_write(register, operation, UNUSED_2);     \
-        teensypin_write(register, operation, UNUSED_3);     \
-        teensypin_write(register, operation, UNUSED_4); }   \
+        teensypin_write(register, operation, UNUSED_2); }   \
     while(0)
 
 #define  teensypin_write_all_row(register, operation)   \
@@ -144,13 +142,15 @@
 
 #define  teensypin_write_all_column(register, operation)    \
     do {                                                    \
-        teensypin_write(register, operation, COLUMN_7);     \
-        teensypin_write(register, operation, COLUMN_8);     \
-        teensypin_write(register, operation, COLUMN_9);     \
         teensypin_write(register, operation, COLUMN_A);     \
         teensypin_write(register, operation, COLUMN_B);     \
         teensypin_write(register, operation, COLUMN_C);     \
-        teensypin_write(register, operation, COLUMN_D); }   \
+        teensypin_write(register, operation, COLUMN_D);     \
+        teensypin_write(register, operation, COLUMN_E);     \
+        teensypin_write(register, operation, COLUMN_F);     \
+        teensypin_write(register, operation, COLUMN_10);    \
+        teensypin_write(register, operation, COLUMN_11);    \
+        teensypin_write(register, operation, COLUMN_12); }  \
     while(0)
 
 
@@ -172,20 +172,22 @@
         teensypin_write(DDR, CLEAR, COLUMN_##column);       \
     } while(0)
 
-#define  update_columns_for_row(matrix, row)                \
-    do {                                                    \
-        /* set row low (set as output) */                   \
-        teensypin_write(DDR, SET, ROW_##row);               \
-        /* read columns 7..D and update matrix */           \
-        matrix[0x##row][0x7] = ! teensypin_read(COLUMN_7);  \
-        matrix[0x##row][0x8] = ! teensypin_read(COLUMN_8);  \
-        matrix[0x##row][0x9] = ! teensypin_read(COLUMN_9);  \
-        matrix[0x##row][0xA] = ! teensypin_read(COLUMN_A);  \
-        matrix[0x##row][0xB] = ! teensypin_read(COLUMN_B);  \
-        matrix[0x##row][0xC] = ! teensypin_read(COLUMN_C);  \
-        matrix[0x##row][0xD] = ! teensypin_read(COLUMN_D);  \
-        /* set row hi-Z (set as input) */                   \
-        teensypin_write(DDR, CLEAR, ROW_##row);             \
+#define  update_columns_for_row(matrix, row)                  \
+    do {                                                      \
+        /* set row low (set as output) */                     \
+        teensypin_write(DDR, SET, ROW_##row);                 \
+        /* read columns 7..D and update matrix */             \
+        matrix[0x##row][0xA] = ! teensypin_read(COLUMN_A);    \
+        matrix[0x##row][0xB] = ! teensypin_read(COLUMN_B);    \
+        matrix[0x##row][0xC] = ! teensypin_read(COLUMN_C);    \
+        matrix[0x##row][0xD] = ! teensypin_read(COLUMN_D);    \
+        matrix[0x##row][0xE] = ! teensypin_read(COLUMN_E);    \
+        matrix[0x##row][0xF] = ! teensypin_read(COLUMN_F);    \
+        matrix[0x##row][0x10] = ! teensypin_read(COLUMN_10);  \
+        matrix[0x##row][0x11] = ! teensypin_read(COLUMN_11);  \
+        matrix[0x##row][0x12] = ! teensypin_read(COLUMN_12);  \
+        /* set row hi-Z (set as input) */                     \
+        teensypin_write(DDR, CLEAR, ROW_##row);               \
     } while(0)
 
 // ----------------------------------------------------------------------------
@@ -254,13 +256,15 @@ uint8_t teensy__update_matrix(bool matrix[OPT__KB__ROWS][OPT__KB__COLUMNS]) {
         update_columns_for_row(matrix, 4);
         update_columns_for_row(matrix, 5);
     #elif OPT__TEENSY__DRIVE_COLUMNS
-        update_rows_for_column(matrix, 7);
-        update_rows_for_column(matrix, 8);
-        update_rows_for_column(matrix, 9);
         update_rows_for_column(matrix, A);
         update_rows_for_column(matrix, B);
         update_rows_for_column(matrix, C);
         update_rows_for_column(matrix, D);
+        update_rows_for_column(matrix, E);
+        update_rows_for_column(matrix, F);
+        update_rows_for_column(matrix, 10);
+        update_rows_for_column(matrix, 11);
+        update_rows_for_column(matrix, 12);
     #endif
 
     return 0;  // success

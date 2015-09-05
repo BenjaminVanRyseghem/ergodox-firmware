@@ -27,17 +27,17 @@
 ### Teensy 2.0 Pin Assignments
 
               power_negative  GND +---.....---+ Vcc  power_positive
-                    column_7  PB0 +           + PF0  row_5
-                    column_8  PB1 +           + PF1  row_4
-                    column_9  PB2 +           + PF4  row_3
-                    column_A  PB3 +  o     o  + PF5  row_2
+                    column_A  PB0 +           + PF0  row_5
+                    column_B  PB1 +           + PF1  row_4
+                    column_C  PB2 +           + PF4  row_3
+                    column_D  PB3 +  o     o  + PF5  row_2
                 (OC1C) LED_3  PB7 + PE6  AREF + PF6  row_1
                  (SCL)   I2C  PD0 +           + PF7  row_0
                  (SDA)   I2C  PD1 +           + PB6  LED_2 (OC1B)
-                    column_B  PD2 +           + PB5  LED_1 (OC1A)
-                    column_C  PD3 +           + PB4  = Vcc
-                    column_D  PC6 +           o PD7
-                              PC7 o-o-o-o-o-o-+ PD6  onboardLED = GND
+                    column_E  PD2 +           + PB5  LED_1 (OC1A)
+                    column_F  PD3 +           + PB4  = Vcc
+                   column_10  PC6 +           + PD7  column_12
+                   column_11  PC7 +-o-o-o-o-o-+ PD6  onboardLED = GND
                               PD5 --/ | | | \-- PD4
                               Vcc ----/ | \---- RST
                               GND-------/
@@ -131,13 +131,13 @@
     * We want:
         * `WGM` = `0b0101` : Fast PWM mode, 8-bit (see section 14.8.3)
         * `COM1(A|B|C)` = `0b10` : Clear OC1(A|B|C) on compare match, set
-          OC1(A|B|C) at TOP
+          OC1(A|B|C|D|E) at TOP
             * That is, we want `TCCR1A |= 0b10101000`
-            * This way higher values of `OCR1(A|B|C)` will mean longer 'on'
+            * This way higher values of `OCR1(A|B|C|D|E)` will mean longer 'on'
               times for the LEDs (provided they're hooked up to GND; other way
               around if they're hooked up to Vcc)
         * `CS` = `0b001` : clk_i/o / 1 (no prescaling)
-            * LEDs will be at minimum brightness until OCR1(A|B|C) are changed
+            * LEDs will be at minimum brightness until OCR1(A|B|C|D|E) are changed
               (since the default value of all the bits in those registers is
               `0`)
 

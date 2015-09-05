@@ -19,7 +19,7 @@
 
 // ----------------------------------------------------------------------------
 
-#if OPT__KB__ROWS != 6 || OPT__KB__COLUMNS != 14
+#if OPT__KB__ROWS != 6 || OPT__KB__COLUMNS != 19
     #error "Expecting different keyboard dimensions"
 #endif
 
@@ -95,8 +95,8 @@ uint8_t mcp23018__init(void) {
         twi__send(0b11111111);  // IODIRA
         twi__send(0b11000000);  // IODIRB
     #elif OPT__MCP23018__DRIVE_COLUMNS
-        twi__send(0b10000000);  // IODIRA
-        twi__send(0b11111111);  // IODIRB
+        twi__send(0b00000000);  // IODIRA
+        twi__send(0b00111111);  // IODIRB
     #endif
     twi__stop();
 
@@ -112,8 +112,8 @@ uint8_t mcp23018__init(void) {
         twi__send(0b11111111);  // GPPUA
         twi__send(0b11000000);  // GPPUB
     #elif OPT__MCP23018__DRIVE_COLUMNS
-        twi__send(0b10000000);  // GPPUA
-        twi__send(0b11111111);  // GPPUB
+        twi__send(0b00000000);  // GPPUA
+        twi__send(0b00111111);  // GPPUB
     #endif
     twi__stop();
 
@@ -156,8 +156,8 @@ uint8_t mcp23018__update_matrix(bool matrix[OPT__KB__ROWS][OPT__KB__COLUMNS]) {
     // if there was an error
     if (ret) {
         // clear our part of the matrix
-        for (uint8_t row=0; row<=5; row++)
-            for (uint8_t col=0; col<=6; col++)
+        for (uint8_t row=0; row<OPT__KB__ROWS; row++)
+            for (uint8_t col=0; col<=9; col++)
                 matrix[row][col] = 0;
 
         return ret;
@@ -166,13 +166,13 @@ uint8_t mcp23018__update_matrix(bool matrix[OPT__KB__ROWS][OPT__KB__COLUMNS]) {
     // update our part of the matrix ..........................................
 
     #if OPT__MCP23018__DRIVE_ROWS
-        for (uint8_t row=0; row<=5; row++) {
+        for (uint8_t row=0; row<OPT__KB__ROWS; row++) {
             // set active row low  : 0
             // set other rows hi-Z : 1
             twi__start();
             twi__send(TWI_ADDR_WRITE);
             twi__send(GPIOB);
-            twi__send( 0xFF & ~(1<<(5-row)) );
+            twi__send( 0xFF & ~(1<<(OPT__KB__ROWS-1-row)) );
             twi__stop();
 
             // read column data
@@ -185,7 +185,7 @@ uint8_t mcp23018__update_matrix(bool matrix[OPT__KB__ROWS][OPT__KB__COLUMNS]) {
             twi__stop();
 
             // update matrix
-            for (uint8_t col=0; col<=6; col++) {
+            for (uint8_t col=0; col<=9; col++) {
                 matrix[row][col] = !( data & (1<<col) );
             }
         }
@@ -198,7 +198,7 @@ uint8_t mcp23018__update_matrix(bool matrix[OPT__KB__ROWS][OPT__KB__COLUMNS]) {
         twi__stop();
 
     #elif OPT__MCP23018__DRIVE_COLUMNS
-        for (uint8_t col=0; col<=6; col++) {
+        for (uint8_t col=0; col<8; col++) {
             // set active column low  : 0
             // set other columns hi-Z : 1
             twi__start();
@@ -214,11 +214,20 @@ uint8_t mcp23018__update_matrix(bool matrix[OPT__KB__ROWS][OPT__KB__COLUMNS]) {
             twi__start();
             twi__send(TWI_ADDR_READ);
             twi__read(&data);
+
+            // Weird fix, but fix anyway ;)
+            if(col == 7) {
+                twi__start();
+                twi__send(TWI_ADDR_WRITE);
+                twi__send(GPIOA);
+                twi__send(0xFF & ~1);
+            }
+
             twi__stop();
 
             // update matrix
-            for (uint8_t row=0; row<=5; row++) {
-                matrix[row][col] = !( data & (1<<(5-row)) );
+            for (uint8_t row=0; row<OPT__KB__ROWS; row++) {
+                matrix[row][col] = !( data & (1<<(OPT__KB__ROWS-1-row)) );
             }
         }
 
@@ -228,6 +237,39 @@ uint8_t mcp23018__update_matrix(bool matrix[OPT__KB__ROWS][OPT__KB__COLUMNS]) {
         twi__send(GPIOA);
         twi__send(0xFF);
         twi__stop();
+
+        // Columns 8 & 9
+        for (uint8_t col=6; col<8; col++) {
+            // set active column low  : 0
+            // set other columns hi-Z : 1
+            twi__start();
+            twi__send(TWI_ADDR_WRITE);
+            twi__send(GPIOB);
+            twi__send( 0xFF & ~(1<<col) );
+            twi__stop();
+
+            // read row data
+            twi__start();
+            twi__send(TWI_ADDR_WRITE);
+            twi__send(GPIOB);
+            twi__start();
+            twi__send(TWI_ADDR_READ);
+            twi__read(&data);
+            twi__stop();
+
+            // update matrix
+            for (uint8_t row=0; row<OPT__KB__ROWS; row++) {
+                matrix[row][col+2] = !( data & (1<<(OPT__KB__ROWS-1-row)) );
+            }
+        };
+
+//        twi__start();
+//        twi__send(TWI_ADDR_WRITE);
+//        twi__send(GPIOB);
+//        twi__send(0xFF);
+//        twi__stop();
+
+
 
     #endif
 

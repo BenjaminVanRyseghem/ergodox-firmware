@@ -65,7 +65,7 @@
 // ----------------------------------------------------------------------------
 
 #define  OPT__KB__ROWS     6
-#define  OPT__KB__COLUMNS  14
+#define  OPT__KB__COLUMNS  19
 
 
 // ----------------------------------------------------------------------------
@@ -82,7 +82,7 @@
 // ----------------------------------------------------------------------------
 
 #define  OPT__USB__STR_MANUFACTURER  L"DIY"
-#define  OPT__USB__STR_PRODUCT       L"ErgoDox Ergonomic Keyboard"
+#define  OPT__USB__STR_PRODUCT       L"Maltron Ergonomic Keyboard"
 #define  OPT__USB__VENDOR_ID         0x1d50  // Openmoko, Inc.
 #define  OPT__USB__PRODUCT_ID        0x6028  // ErgoDox Ergonomic Keyboard
 
