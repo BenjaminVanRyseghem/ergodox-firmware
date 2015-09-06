@@ -37,8 +37,8 @@
                     column_E  PD2 +           + PB5  LED_1 (OC1A)
                     column_F  PD3 +           + PB4  = Vcc
                    column_10  PC6 +           + PD7  column_12
-                   column_11  PC7 +-o-o-o-o-o-+ PD6  onboardLED = GND
-                              PD5 --/ | | | \-- PD4
+                   column_11  PC7 +-+-o-o-o-+-+ PD6  onboardLED = GND
+                       LED_5  PD5 --/ | | | \-- PD4  LED_4
                               Vcc ----/ | \---- RST
                               GND-------/
 
@@ -97,7 +97,7 @@
 
     * We need to delay for at least 1 μs between changing the column pins and
       reading the row pins.  I would assume this is to allow the pins time to
-      stabalize.
+      stabilize.
         * Thanks to [hasu] (http://geekhack.org/member.php?3412-hasu)
           for the suggestion [here]
           (http://geekhack.org/showthread.php?22780-Interest-Check-Custom-split-ergo-keyboard&p=606415&viewfull=1#post606415),
@@ -133,11 +133,11 @@
         * `COM1(A|B|C)` = `0b10` : Clear OC1(A|B|C) on compare match, set
           OC1(A|B|C|D|E) at TOP
             * That is, we want `TCCR1A |= 0b10101000`
-            * This way higher values of `OCR1(A|B|C|D|E)` will mean longer 'on'
+            * This way higher values of `OCR1(A|B|C)` will mean longer 'on'
               times for the LEDs (provided they're hooked up to GND; other way
               around if they're hooked up to Vcc)
         * `CS` = `0b001` : clk_i/o / 1 (no prescaling)
-            * LEDs will be at minimum brightness until OCR1(A|B|C|D|E) are changed
+            * LEDs will be at minimum brightness until OCR1(A|B|C) are changed
               (since the default value of all the bits in those registers is
               `0`)
 

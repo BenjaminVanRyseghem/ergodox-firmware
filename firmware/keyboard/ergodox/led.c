@@ -35,37 +35,39 @@ struct led_state {
     bool led_1 : 1;
     bool led_2 : 1;
     bool led_3 : 1;
+    bool led_4 : 1;
+    bool led_5 : 1;
 };
 
 // ----------------------------------------------------------------------------
 
 void kb__led__on(uint8_t led) {
     switch(led) {
-        case 1: (DDRB |=  (1<<5)); break;  // topmost
-        case 2: (DDRB |=  (1<<6)); break;  // middle
-        case 3: (DDRB |=  (1<<7)); break;  // bottommost
-        case 4:                    break;
-        case 5:                    break;
+        case 1: (DDRB |=  (1<<5)); break;  // leftmost
+        case 2: (DDRB |=  (1<<6)); break;
+        case 3: (DDRB |=  (1<<7)); break;
+        case 4: (DDRD |=  (1<<4)); break;
+        case 5: (DDRD |=  (1<<5)); break;  // rightmost
     };
 }
 
 void kb__led__off(uint8_t led) {
     switch(led) {
         case 1: (DDRB &= ~(1<<5)); break;  // topmost
-	    case 2: (DDRB &= ~(1<<6)); break;  // middle
-	    case 3: (DDRB &= ~(1<<7)); break;  // bottommost
-        case 4:                    break;
-        case 5:                    break;
+        case 2: (DDRB &= ~(1<<6)); break;
+        case 3: (DDRB &= ~(1<<7)); break;
+        case 4: (DDRD &= ~(1<<4)); break;
+        case 5: (DDRD &= ~(1<<5)); break;  // rightmost
     };
 }
 
 void kb__led__set(uint8_t led, float n) {
     switch(led) {
         case 1: (OCR1A = (uint8_t)((n) * 0xFF)); break;  // topmost
-        case 2: (OCR1B = (uint8_t)((n) * 0xFF)); break;  // middle
-        case 3: (OCR1C = (uint8_t)((n) * 0xFF)); break;  // bottommost
-        case 4:                                  break;
-        case 5:                                  break;
+        case 2: (OCR1B = (uint8_t)((n) * 0xFF)); break;
+        case 3: (OCR1C = (uint8_t)((n) * 0xFF)); break;
+        case 4:                                ; break;
+        case 5:                                ; break;  // rightmost
     };
 }
 
@@ -74,10 +76,10 @@ void kb__led__set(uint8_t led, float n) {
 bool kb__led__read(uint8_t led) {
     switch(led) {
         case 1: return (PINB & (1<<5));  // topmost
-	    case 2: return (PINB & (1<<6));  // middle
-	    case 3: return (PINB & (1<<7));  // bottommost
-        case 4: ;
-        case 5: ;
+        case 2: return (PINB & (1<<6));
+        case 3: return (PINB & (1<<7));
+        case 4: return (PIND & (1<<4));
+        case 5: return (PIND & (1<<5));  // rightmost
     };
     return false;
 }
@@ -85,17 +87,17 @@ bool kb__led__read(uint8_t led) {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 void kb__led__all_on(void) {
-    for (uint8_t i=1; i<=3; i++)
+    for (uint8_t i=1; i<=5; i++)
         kb__led__on(i);
 }
 
 void kb__led__all_off(void) {
-    for (uint8_t i=1; i<=3; i++)
+    for (uint8_t i=1; i<=5; i++)
         kb__led__off(i);
 }
 
 void kb__led__all_set(float n) {
-    for (uint8_t i=1; i<=3; i++)
+    for (uint8_t i=1; i<=5; i++)
         kb__led__set(i, n);
 }
 
@@ -122,6 +124,8 @@ void kb__led__delay__error(void) {
         .led_1 = kb__led__read(1),
         .led_2 = kb__led__read(2),
         .led_3 = kb__led__read(3),
+        .led_4 = kb__led__read(4),
+        .led_5 = kb__led__read(5),
     };
 
     kb__led__all_off();
@@ -142,15 +146,20 @@ void kb__led__delay__error(void) {
     if (state.led_1) kb__led__on(1);
     if (state.led_2) kb__led__on(2);
     if (state.led_3) kb__led__on(3);
+    if (state.led_4) kb__led__on(4);
+    if (state.led_5) kb__led__on(5);
 }
 
 void kb__led__delay__usb_init(void) {
 	// need to delay for a total of ~1 second
     kb__led__set( 1, OPT__LED_BRIGHTNESS );
-    _delay_ms(333);
+    _delay_ms(200);
     kb__led__set( 2, OPT__LED_BRIGHTNESS );
-    _delay_ms(333);
+    _delay_ms(200);
     kb__led__set( 3, OPT__LED_BRIGHTNESS );
-    _delay_ms(333);
+    _delay_ms(200);
+    kb__led__set( 4, OPT__LED_BRIGHTNESS );
+    _delay_ms(200);
+    kb__led__set( 5, OPT__LED_BRIGHTNESS );
+    _delay_ms(200);
 }
-
