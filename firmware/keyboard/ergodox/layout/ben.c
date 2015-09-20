@@ -1,11 +1,10 @@
 /* ----------------------------------------------------------------------------
- * Copyright (c) 2013, 2014 Ben Blazak <benblazak.dev@gmail.com>
+ * Copyright (c) 2015 Benjamin Van Ryseghem <benjamin.vanryseghem@gmail.com>
  * Released under The MIT License (see "doc/licenses/MIT.md")
- * Project located at <https://github.com/benblazak/ergodox-firmware>
  * ------------------------------------------------------------------------- */
 
 /**                                                                 description
- * Maltron layout (see http://www.maltron.com/keyboard-info/the-maltron-letter-layout-advantage)
+ * My QWERTY layout, at the moment.
  *
  * Implements the "layout" section of '.../firmware/keyboard.h'
  */
@@ -51,28 +50,28 @@ static layout_t layout PROGMEM = {
 // left hand ...... ......... ......... ......... ......... ......... .........
       F1,        F2,        F3,        F4,        F5,        F6,
        1,         2,         3,         4,         5,         6,
-   garve,         q,         p,         y,         c,         b,
-    caps,         a,         n,         i,         s,         f,
-  shiftL,     comma,    period,         j,         g,     slash,
-              ctrlL,      guiL,      altL,      dash,
-                                                  bs,      home,       end,
-                                                   e,       tab,     pageU,
-                                                                     pageD,
+   brktL,         q,         w,         e,         r,         t,
+     esc,         a,         s,         d,         f,         g,
+  shiftL,         z,         x,         c,         v,         b,
+              ctrlL,   bkslash,      altL,      guiL,
+                                                  bs,      home,     pageU,
+                                               enter,       tab,    arrowL,
+                                                                    arrowR,
 // middle part .... ......... ......... ......... ......... ......... .........
-     esc,       num,       kp7,       kp8,       kp9,     kpDiv,  lpupo1l1,
-    caps,   kpEqual,       kp4,       kp5,       kp6,     kpMul,   volumeU,
-   prScr,      scrl,       kp1,       kp2,       kp3,     kpSub,   volumeD,
-   pause,       ins,       kp0,     kpDec,   kpEnter,     kpAdd,      mute,
+lpupo1l1,       num,       kp7,       kp8,       kp9,     kpDiv,     prScr,
+ volumeU,       esc,       kp4,       kp5,       kp6,     kpMul,     pause,
+ volumeD,     grave,       kp1,       kp2,       kp3,     kpSub,      scrl,
+    mute,   kpEqual,       kp0,     kpDec,   kpEnter,     kpAdd,      help,
 // right hand ..... ......... ......... ......... ......... ......... .........
                  F7,        F8,        F9,       F10,       F11,       F12,
-                  7,         8,         9,         0,     brktL,     brktR,
-                  v,         m,         u,         z,         l,   bkslash,
-                  d,         t,         h,         o,         r,     quote,
-            semicol,         w,         k,      dash,         x,    shiftR,
-                         equal,      altR,      guiR,     ctrlR,
-  arrowL,    arrowR,       del,
-  arrowU,     enter,     space,
-  arrowD                     ),
+                  7,         8,         9,         0,      dash,     equal,
+                  y,         u,         i,         o,         p,     brktR,
+                  h,         j,         k,         l,   semicol,     quote,
+                  n,         m,     comma,    period,     slash,    shiftR,
+                          guiR,      altR,      grave,    ctrlR,
+    pageD,      end,       del,
+   arrowU,    enter,     space,
+   arrowD                    ),
 
 // ............................................................................
 

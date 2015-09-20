@@ -5,7 +5,7 @@
  * ------------------------------------------------------------------------- */
 
 /**                                                                 description
- * Maltron layout (see http://www.maltron.com/keyboard-info/the-maltron-letter-layout-advantage)
+ * Dvorak layout (see https://en.wikipedia.org/wiki/Dvorak_Simplified_Keyboard)
  *
  * Implements the "layout" section of '.../firmware/keyboard.h'
  */
@@ -51,32 +51,63 @@ static layout_t layout PROGMEM = {
 // left hand ...... ......... ......... ......... ......... ......... .........
       F1,        F2,        F3,        F4,        F5,        F6,
        1,         2,         3,         4,         5,         6,
-   garve,         q,         p,         y,         c,         b,
-    caps,         a,         n,         i,         s,         f,
-  shiftL,     comma,    period,         j,         g,     slash,
-              ctrlL,      guiL,      altL,      dash,
+   slash,     quote,     comma,    period,         p,         y,
+    caps,         a,         o,         e,         u,         i,
+  shiftL,   semicol,         q,         j,         k,         x,
+            bkslash,     ctrlL,      guiL,      altL,
                                                   bs,      home,       end,
-                                                   e,       tab,     pageU,
+                                               space,       tab,     pageU,
                                                                      pageD,
 // middle part .... ......... ......... ......... ......... ......... .........
-     esc,       num,       kp7,       kp8,       kp9,     kpDiv,  lpupo1l1,
-    caps,   kpEqual,       kp4,       kp5,       kp6,     kpMul,   volumeU,
-   prScr,      scrl,       kp1,       kp2,       kp3,     kpSub,   volumeD,
-   pause,       ins,       kp0,     kpDec,   kpEnter,     kpAdd,      mute,
+lpupo2l2,       num,       kp7,       kp8,       kp9,     kpDiv,     prScr,
+ volumeU,       esc,       kp4,       kp5,       kp6,     kpMul,     pause,
+ volumeD,     grave,       kp1,       kp2,       kp3,     kpSub,      scrl,
+    mute,   kpEqual,       kp0,     kpDec,   kpEnter,     kpAdd,      help,
 // right hand ..... ......... ......... ......... ......... ......... .........
                  F7,        F8,        F9,       F10,       F11,       F12,
                   7,         8,         9,         0,     brktL,     brktR,
-                  v,         m,         u,         z,         l,   bkslash,
-                  d,         t,         h,         o,         r,     quote,
-            semicol,         w,         k,      dash,         x,    shiftR,
-                         equal,      altR,      guiR,     ctrlR,
+                  f,         g,         c,         r,         l,     equal,
+                  d,         h,         t,         n,         s,      dash,
+                  b,         m,         w,         v,         z,    shiftR,
+                          altR,  lpupo1l1,      guiR,     ctrlR,
   arrowL,    arrowR,       del,
   arrowU,     enter,     space,
   arrowD                     ),
 
 // ............................................................................
 
-    MATRIX_LAYER(  // layer 1 : keyboard functions
+    MATRIX_LAYER(  // layer 1 : number pad
+/// macro, unused,
+       K,       nop,
+// left hand ...... ......... ......... ......... ......... ......... .........
+  transp,    transp,    transp,    transp,    transp,    transp,
+  transp,    transp,    transp,    transp,    transp,    transp,
+  transp,       kp7,       kp8,       kp9,     kpDiv,    transp,
+  transp,       kp4,       kp5,       kp6,     kpMul,    transp,
+  transp,       kp1,       kp2,       kp3,     kpSub,    transp,
+                kp0,     kpDec,   kpEnter,     kpAdd,
+                                              transp,    transp,    transp,
+                                              transp,    transp,    transp,
+                                                                    transp,
+// middle part .... ......... ......... ......... ......... ......... .........
+  transp,    transp,    transp,    transp,    transp,    transp,    transp,
+  transp,    transp,    transp,    transp,    transp,    transp,    transp,
+  transp,    transp,    transp,    transp,    transp,    transp,    transp,
+  transp,    transp,    transp,    transp,    transp,    transp,    transp,
+// right hand ..... ......... ......... ......... ......... ......... .........
+             transp,    transp,    transp,    transp,    transp,    transp,
+             transp,    transp,    transp,    transp,    transp,    transp,
+             transp,    transp,    transp,    transp,    transp,    transp,
+             transp,    transp,    transp,    transp,    transp,    transp,
+             transp,    transp,    transp,    transp,    transp,    transp,
+                        transp,    transp,    transp,    transp,
+    home,       end,    transp,
+    pageU,    transp,   transp,
+    pageD                    ),
+
+// ............................................................................
+
+    MATRIX_LAYER(  // layer 2 : keyboard functions
 /// macro, unused,
        K,       nop,
 // left hand ...... ......... ......... ......... ......... ......... .........
