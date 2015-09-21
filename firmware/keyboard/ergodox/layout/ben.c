@@ -59,7 +59,7 @@ static layout_t layout PROGMEM = {
                                                                     arrowR,
 // middle part .... ......... ......... ......... ......... ......... .........
 lpupo1l1,       num,       kp7,       kp8,       kp9,     kpDiv,     prScr,
- volumeU,       esc,       kp4,       kp5,       kp6,     kpMul,     pause,
+ volumeU,      caps,       kp4,       kp5,       kp6,     kpMul,     pause,
  volumeD,     grave,       kp1,       kp2,       kp3,     kpSub,      scrl,
     mute,   kpEqual,       kp0,     kpDec,   kpEnter,     kpAdd,      help,
 // right hand ..... ......... ......... ......... ......... ......... .........
