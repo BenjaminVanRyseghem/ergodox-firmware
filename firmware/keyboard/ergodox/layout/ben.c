@@ -55,7 +55,7 @@ static layout_t layout PROGMEM = {
   shiftL,         z,         x,         c,         v,         b,
               ctrlL,   bkslash,      altL,      guiL,
                                                   bs,      home,     pageU,
-                                               enter,       tab,    arrowL,
+                                               space,       tab,    arrowL,
                                                                     arrowR,
 // middle part .... ......... ......... ......... ......... ......... .........
 lpupo1l1,       num,       kp7,       kp8,       kp9,     kpDiv,     prScr,
