@@ -370,7 +370,8 @@ your goal.
 
 -------------------------------------------------------------------------------
 
-Copyright &copy; 2012 Ben Blazak <benblazak.dev@gmail.com>  
+Copyright &copy; 2012 Ben Blazak <benblazak.dev@gmail.com>
+Copyright &copy; 2015 Benjamin Van Ryseghem <benjamin@vanryseghem.com>
 Released under The MIT License (MIT) (see "license.md")  
-Project located at <https://github.com/benblazak/ergodox-firmware>
+Project located at <https://github.com/BenjaminVanRyseghem/ergotron-firmware>
 
